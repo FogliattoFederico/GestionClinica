@@ -12,6 +12,13 @@ void matchearProfesional(const char* matricula)
     ProfesionalesArchivo pa;
     int cantidad = pa.getCantidad();
     profesionales = new Profesional [cantidad];
+
+    if(profesionales == nullptr)
+    {
+        std::cout<<"No se pudo asignar memoria ";
+
+    }
+
     pa.leerTodos(profesionales, cantidad);
 
     for(int i = 0; i < cantidad; i++)
@@ -25,6 +32,8 @@ void matchearProfesional(const char* matricula)
         }
 
     }
+
+    delete [] profesionales;
 }
 void matchearPaciente(const char* dni)
 {
@@ -33,6 +42,13 @@ void matchearPaciente(const char* dni)
     PacientesArchivo pa;
     int cantidad = pa.getCantidad();
     pacientes = new Paciente [cantidad];
+
+    if(pacientes == nullptr)
+    {
+        std::cout<<"No se pudo asignar memoria ";
+
+    }
+
     pa.leerTodos(pacientes, cantidad);
 
     for(int i = 0; i < cantidad; i++)
@@ -46,10 +62,10 @@ void matchearPaciente(const char* dni)
         }
     }
 
+    delete [] pacientes;
 }
 Turno cargarTurno()
 {
-
     Turno turno;
     Fecha fechaTurno;
     char dniPaciente[LONGITUD_DNI], matricula[LONGITUD_MATRICULA];
@@ -94,7 +110,6 @@ Turno cargarTurno()
         std::cout << "\n";
         mostrarTodosProfesionalesActivosResumido();
         std::cout << "\n";
-
 
         do
         {
@@ -172,7 +187,6 @@ Turno cargarTurno()
         }
         while(!fechaFutura);
 
-
         do
         {
             std::cout << "Ingrese la hora del turno (8-20 hs): ";
@@ -206,13 +220,11 @@ void buscarTurnoPorFecha()
     int dia, mes, anio;
     char confirmacion;
 
-
     do
     {
         std::cout << "Ingrese la fecha del turno: " << std::endl;
         std::cout << "Ingrese 0 en cualquier campo para cancelar" << std::endl;
         std::cout << "------------------------------------------" << std::endl;
-
 
         do
         {
@@ -327,6 +339,7 @@ void buscarTurnoPorFecha()
         std::cout<<"\n";
     }
 
+    delete [] turnos;
 }
 void buscarTurnoPorDni()
 {
@@ -439,7 +452,6 @@ void buscarTurnoPorMatricula()
     std::cin.ignore();
     do
     {
-        ///Aca, al ingresar dni incorrecto, la segunda vez elimina el primer caracter
         std::cout << "Ingrese la matricula del profesional: ";
         std::cin.getline(matricula, LONGITUD_DNI);
         inputValido  = validateInputString(matricula, LONGITUD_DNI);
@@ -532,7 +544,6 @@ void buscarTurnoPorMatricula()
 }
 void buscarTurnoPorMatriculaYFecha()
 {
-
     char matricula[LONGITUD_DNI];
 
     bool inputValido = false, existeP = false;
@@ -579,9 +590,7 @@ void buscarTurnoPorMatriculaYFecha()
     do
     {
         std::cout << "Ingrese la fecha del turno: " << std::endl;
-        //std::cout << "Ingrese 0 en cualquier campo para cancelar" << std::endl;
         std::cout << "------------------------------------------" << std::endl;
-        //std::cin >> fechaTurno;
 
         do
         {
@@ -697,7 +706,7 @@ void buscarTurnoPorMatriculaYFecha()
         std::cout<<"\n";
     }
 
-
+    delete [] turnos;
 
 }
 void guardarTurno()
@@ -1033,7 +1042,6 @@ void mostrarTodosTurnosEliminados()
 
     ta.leerTodos(turnos, cantidad);
 
-
     ///Inicio ordenamiento por fecha ascendente
     for (int i = 0; i < cantidad - 1; i++)
     {
@@ -1059,8 +1067,6 @@ void mostrarTodosTurnosEliminados()
         {
             std::cout<<"------------------------ "<< "TURNO " << k + 1 << " -----------------------"<<std::endl;
             turnos[k].mostrar();
-
-
         }
     }
     delete [] turnos;
@@ -1123,7 +1129,6 @@ void restaurarTurno()
         delete [] turnos;
         return;
     }
-
 
     int indRestauar;
 
@@ -1360,15 +1365,6 @@ void informarEspecialidadMasSolicitada()
         std::cout << especialidades[ind].getNombreEspecialidad() << ", con " << pacientesAtendidos[ind] <<
                   " pacientes atendidos, fue la especialidad mas solicitada " << std::endl << std::endl;
     }
-
-    /*   ///PRUEBA
-      std::cout << "PRUEBA: " << std::endl;
-
-      for(int p = 0; p < cantidadEspecialidades; p++)
-      {
-          std::cout << "Especialidad: " << especialidades[p].getNombreEspecialidad() << " / Atenciones: " << pacientesAtendidos[p] << std::endl;
-
-      } */
 
     delete[] especialidades;
     delete[] pacientesAtendidos;
