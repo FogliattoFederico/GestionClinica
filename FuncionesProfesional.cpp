@@ -671,7 +671,7 @@ void buscarProfesionalPorEspecialidad()
     int cantidad = pa.getCantidad();
     profesional = new Profesional[cantidad];
 
-      if(profesionales == nullptr){
+      if(profesional == nullptr){
 
         std::cout<<"No se pudo asignar memoria ";
         return;
