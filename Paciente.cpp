@@ -5,6 +5,7 @@
 #include "Fecha.h"
 #include <ctime> ///Para menejar fechas
 
+
 using namespace std;
 
 Paciente::Paciente():Persona()

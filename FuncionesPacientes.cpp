@@ -1,4 +1,5 @@
 #include <iostream>
+#include <locale>
 #include <cstring>
 #include "FuncionesPacientes.h"
 #include "PacientesArchivo.h"
@@ -7,7 +8,7 @@
 Paciente cargarPaciente()
 {
     char nombre[LONGITUD_NOMBRE], apellido[LONGITUD_APELLIDO], direccion[LONGITUD_DIRECCION], telefono[LONGITUD_TELEFONO], ciudad[LONGITUD_CIUDAD], email[LONGITUD_EMAIL];
-    char obraSocial[LONGITUD_OBRASOCIAL], dni[LONGITUD_DNI];
+    char obraSocial[LONGITUD_OBRASOCIAL], dni[LONGITUD_DNI], confirmacion;
     Fecha fechaNacimiento;
     bool inputValid = false, existeP;
     int dia, mes, anio;
@@ -63,7 +64,6 @@ Paciente cargarPaciente()
     do
     {
         std::cout << "Ingrese el nombre: ";
-        //std::cin.ignore();
         std::cin.getline(nombre, LONGITUD_NOMBRE);
         inputValid = validateInputString(nombre, LONGITUD_NOMBRE);
 
@@ -138,27 +138,26 @@ Paciente cargarPaciente()
     {
         dia = pedirDiaFechaCancelable();
 
-
-        if(validateCancelValueInt(dia))
-        {
-            return Paciente();
-        }
-
         mes = pedirMesFechaCancelable();
-
-
-        if(validateCancelValueInt(mes))
-        {
-            return Paciente();
-        }
 
         anio = pedirAnioFechaCancelable();
 
+        do
+            {
 
-        if(validateCancelValueInt(anio))
-        {
-            return Paciente();
-        }
+                std::cout<<"Desea confirmar la fecha ? (s / n) ";
+                std::cin>>confirmacion;
+
+            }
+            while(confirmacion != 's' && confirmacion != 'S' && confirmacion != 'n' && confirmacion != 'N');
+
+
+            if(confirmacion == 'n'|| confirmacion == 'N')
+            {
+
+                return Paciente();
+            }
+
 
         fechaNacimiento = Fecha(dia, mes, anio);    //std::cin>>fechaNacimiento;
         if(!fechaNacimiento.esValida)
@@ -175,8 +174,6 @@ Paciente cargarPaciente()
 
     }
     while(!fechaNacimiento.esValida || fechaNacimiento > obtenerFechaActual());
-
-
 
     std::cout << "Ingrese la obra social: ";
     std::cin.ignore();
@@ -199,7 +196,7 @@ Paciente cargarPaciente()
 Paciente cargarPacienteAEditar(char* Dni)
 {
     char nombre[LONGITUD_NOMBRE], apellido[LONGITUD_APELLIDO], direccion[LONGITUD_DIRECCION], telefono[LONGITUD_TELEFONO], ciudad[LONGITUD_CIUDAD], email[LONGITUD_EMAIL];
-    char obraSocial[LONGITUD_OBRASOCIAL], dni[LONGITUD_DNI];
+    char obraSocial[LONGITUD_OBRASOCIAL], dni[LONGITUD_DNI], confirmacion;
     Fecha fechaNacimiento;
     bool inputValid = false, existeP;
     int dia, mes, anio;
@@ -210,11 +207,9 @@ Paciente cargarPacienteAEditar(char* Dni)
 
     do
     {
-
         do
         {
             std::cout << "Ingrese el DNI del paciente: ";
-            //std::cin.ignore();
             std::cin.getline(dni, LONGITUD_DNI);
             inputValid = validateInputString(dni, LONGITUD_DNI);
         }
@@ -249,7 +244,6 @@ Paciente cargarPacienteAEditar(char* Dni)
     do
     {
         std::cout << "Ingrese el nombre: ";
-        //std::cin.ignore();
         std::cin.getline(nombre, LONGITUD_NOMBRE);
         inputValid = validateInputString(nombre, LONGITUD_NOMBRE);
     }
@@ -260,9 +254,6 @@ Paciente cargarPacienteAEditar(char* Dni)
     {
         return Paciente();
     }
-
-
-
 
     do
     {
@@ -324,29 +315,28 @@ Paciente cargarPacienteAEditar(char* Dni)
     {
         dia = pedirDiaFechaCancelable();
 
-
-        if(validateCancelValueInt(dia))
-        {
-            return Paciente();
-        }
-
         mes = pedirMesFechaCancelable();
-
-
-        if(validateCancelValueInt(mes))
-        {
-            return Paciente();
-        }
 
         anio = pedirAnioFechaCancelable();
 
+        do
+            {
 
-        if(validateCancelValueInt(anio))
-        {
-            return Paciente();
-        }
+                std::cout<<"Desea confirmar la fecha ? (s / n) ";
+                std::cin>>confirmacion;
 
-        fechaNacimiento = Fecha(dia, mes, anio);    //std::cin>>fechaNacimiento;
+            }
+            while(confirmacion != 's' && confirmacion != 'S' && confirmacion != 'n' && confirmacion != 'N');
+
+
+            if(confirmacion == 'n'|| confirmacion == 'N')
+            {
+
+                return Paciente();
+            }
+
+
+        fechaNacimiento = Fecha(dia, mes, anio);
         if(!fechaNacimiento.esValida)
         {
             std::cout << "La fecha ingresada es invalida, ingrese otra por favor " << std::endl;
@@ -362,12 +352,11 @@ Paciente cargarPacienteAEditar(char* Dni)
     }
     while(!fechaNacimiento.esValida || fechaNacimiento > obtenerFechaActual());
 
-
-
     std::cout << "Ingrese la obra social: ";
     std::cin.ignore();
     std::cin.getline(obraSocial, LONGITUD_OBRASOCIAL);
     inputValid = validateInputString(obraSocial, LONGITUD_OBRASOCIAL);
+
     while(!inputValid)
     {
         std::cout << "Ingrese la obra social: ";
@@ -394,8 +383,7 @@ void mostrarPaciente(Paciente paciente)
     std::cout<<"Fecha de nacimiento : " << paciente.getFechaNacimiento().toString()<<std::endl;
     std::cout<<"DNI : " <<paciente.getDni() <<std::endl;
     std::cout<<"Obra Social : " <<paciente.getObraSocial() <<std::endl;
-    ///Prueba edad
-    //std::cout<<"Prueba getEdad: " <<paciente.getEdad()<< " años" <<std::endl;
+    std::cout<<"Edad: " <<paciente.getEdad()<< " anios" <<std::endl;
     std::cout<<"-----------------------------------------------"<<std::endl;
 }
 void mostrarPacienteResumido(Paciente paciente)
@@ -411,6 +399,13 @@ void mostrarTodosPacientesActivos()
     PacientesArchivo pa;
     int cantidad = pa.getCantidad();
     pacientes = new Paciente[cantidad];
+
+    if(pacientes == nullptr){
+
+        std::cout<<"No se pudo asignar memoria ";
+        return;
+    }
+
     pa.leerTodos(pacientes, cantidad);
 
     for (int i = 0; i < cantidad - 1; i++)
@@ -443,7 +438,15 @@ void mostrarTodosPacientesActivosResumidos()
     PacientesArchivo pa;
     int cantidad = pa.getCantidad();
     pacientes = new Paciente [cantidad];
+
+    if(pacientes == nullptr){
+
+        std::cout<<"No se pudo asignar memoria ";
+        return;
+    }
+
     pa.leerTodos(pacientes, cantidad);
+
     for(int i = 0; i < cantidad; i++)
     {
         if(estaPacienteActivo((char *)pacientes[i].getDni()))
@@ -460,7 +463,15 @@ void mostrarTodosPacientesEliminados()
     PacientesArchivo pa;
     int cantidad = pa.getCantidad();
     pacientes = new Paciente [cantidad];
+
+    if(pacientes == nullptr){
+
+        std::cout<<"No se pudo asignar memoria ";
+        return;
+    }
+
     pa.leerTodos(pacientes, cantidad);
+
     for(int i = 0; i < cantidad; i++)
     {
         if(!estaPacienteActivo((char *)pacientes[i].getDni()))
@@ -517,9 +528,6 @@ void editarPaciente()
         return;
     }
 
-
-
-
     if(existePaciente(DNI) && estaPacienteActivo(DNI))
     {
 
@@ -565,20 +573,18 @@ void eliminarPaciente()
     std::cout<<"Ingrese el DNI del paciente a eliminar : ";
     std::cin.ignore();
     std::cin.getline(dni, LONGITUD_DNI);
+
     while(!validateInputString(dni, LONGITUD_DNI))
     {
         std::cout << "Ingrese el DNI del paciente que quiere editar: ";
         std::cin.getline(dni, LONGITUD_DNI);
     }
 
-
     if(validateCancelValueString(dni))
     {
         std::cout << "Eliminacion de paciente cancelada" << std::endl;
         return;
     }
-
-
 
     if(existePaciente(dni) && estaPacienteActivo(dni))
     {
@@ -613,7 +619,6 @@ void restaurarPaciente()
         std::cout << "Ingrese el DNI del paciente que quiere editar: ";
         std::cin.getline(dni, LONGITUD_DNI);
     }
-
 
     if(validateCancelValueString(dni))
     {
@@ -680,6 +685,12 @@ void buscarPacientesPorObraSocial()
     PacientesArchivo pa;
     int cantidad = pa.getCantidad();
     pacientes = new Paciente[cantidad];
+
+    if(pacientes == nullptr){
+
+        std::cout<<"No se pudo asignar memoria ";
+        return;
+    }
 
     bool encontrado = false;
 

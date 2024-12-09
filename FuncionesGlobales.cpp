@@ -7,7 +7,8 @@
 
 //FUNCIONES GENERALES USADAS EN TODA LA APP
 
-bool sonStringsIguales(char* str1, char* str2){
+bool sonStringsIguales(char* str1, char* str2)
+{
     return strcmp(str1, str2) == 0;
 }
 char* trim(char* s)

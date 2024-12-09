@@ -395,6 +395,13 @@ void mostrarTodosProfesionalesActivos()
     ProfesionalesArchivo pa;
     int cantidad = pa.getCantidad();
     profesionales = new Profesional[cantidad];
+
+    if(profesionales == nullptr){
+
+        std::cout<<"No se pudo asignar memoria ";
+        return;
+    }
+
     pa.leerTodos(profesionales, cantidad);
 
     for (int i = 0; i < cantidad - 1; i++)
@@ -428,6 +435,13 @@ void mostrarTodosProfesionalesActivosResumido()
     ProfesionalesArchivo pa;
     int cantidad = pa.getCantidad();
     profesionales = new Profesional [cantidad];
+
+      if(profesionales == nullptr){
+
+        std::cout<<"No se pudo asignar memoria ";
+        return;
+    }
+
     pa.leerTodos(profesionales, cantidad);
     for(int i = 0; i < cantidad; i++)
     {
@@ -445,7 +459,15 @@ void mostrarTodosProfesionalesEliminados()
     ProfesionalesArchivo pa;
     int cantidad = pa.getCantidad();
     profesionales = new Profesional [cantidad];
+
+      if(profesionales == nullptr){
+
+        std::cout<<"No se pudo asignar memoria ";
+        return;
+    }
+
     pa.leerTodos(profesionales, cantidad);
+
     for(int i = 0; i < cantidad; i++)
     {
         if(estaProfesionalActivo((char*)profesionales[i].getMatricula()) == false)
@@ -460,7 +482,9 @@ void editarProfesional()
 {
     char matricula[50];
     ProfesionalesArchivo pa;
+
     mostrarTodosProfesionalesActivos();
+
     std::cout << "Digite 0 para cancelar" << std::endl;
     std::cout <<"Ingrese la matricula del profesional que quiere editar: ";
     std::cin.ignore();
@@ -509,7 +533,6 @@ void editarProfesional()
         std::cout << std::endl <<"El profesional que quiere editar no ha sido encontrado." <<std::endl<< std::endl;
         return;
     }
-
 
 }
 void eliminarProfesional()
@@ -634,6 +657,7 @@ bool existeProfesional(char *matricula)
 {
     ProfesionalesArchivo pa;
     int pos = pa.buscar(matricula);
+
     if(pos == -1 )
     {
         return false;
@@ -646,6 +670,12 @@ void buscarProfesionalPorEspecialidad()
     ProfesionalesArchivo pa;
     int cantidad = pa.getCantidad();
     profesional = new Profesional[cantidad];
+
+      if(profesionales == nullptr){
+
+        std::cout<<"No se pudo asignar memoria ";
+        return;
+    }
 
     bool encontrado = false;
     int especialidad;
